@@ -29,7 +29,7 @@ public class HuffmanNode implements Comparable {
     }
 
     public String toString() {
-        String var10000 = this.letter;
-        return "<" + var10000 + ", " + this.frequency.toString() + ">";
+        String letter = this.letter;
+        return "<" + letter + ", " + this.frequency.toString() + ">";
     }
 }

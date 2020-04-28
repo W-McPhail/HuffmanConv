@@ -12,7 +12,7 @@ public class HuffmanConverter {
     private String contents;
     private String legend = "";
     private HuffmanTree huffmanTree;
-    private BinaryHeap b;
+    private BinaryHeap bHeap;
 
     public HuffmanConverter(String input) {
         this.contents = input;
@@ -29,6 +29,7 @@ public class HuffmanConverter {
                 String input = new String(bytes);
                 HuffmanConverter converter = new HuffmanConverter(input);
                 converter.recordFrequencies();
+                converter.frequenciesToTree();
             } catch (IOException var404) {
                 var404.printStackTrace();
             }
@@ -58,7 +59,9 @@ public class HuffmanConverter {
     }
 
     public void frequenciesToTree() {
-
+        bHeap = HuffmanTree.legendToHeap(legend);
+        huffmanTree = HuffmanTree.createFromHeap(bHeap);
+        huffmanTree.printLegend();
     }
 }
 

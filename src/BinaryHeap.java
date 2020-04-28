@@ -1,123 +1,178 @@
+// BinaryHeap class
 //
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
+// CONSTRUCTION: with optional capacity (that defaults to 100)
+//               or an array containing initial items
 //
+// ******************PUBLIC OPERATIONS*********************
+// void insert( x )       --> Insert x
+// Comparable deleteMin( )--> Return and remove smallest item
+// Comparable findMin( )  --> Return smallest item
+// boolean isEmpty( )     --> Return true if empty; else false
+// void makeEmpty( )      --> Remove all items
+// void printHeap( )		  --> Print all items
+// ******************ERRORS********************************
+// Throws UnderflowException as appropriate
 
-public class BinaryHeap<E extends Comparable> {
-    private static final int DEFAULT_CAPACITY = 100;
-    private int currentSize;
-    private E[] array;
 
-    public BinaryHeap() {
-        this(100);
+/**
+ * Implements a binary heap.
+ * Note that all "matching" is based on the compareTo method.
+ * @author Mark Allen Weiss
+ */
+public class BinaryHeap<E extends Comparable>
+{
+    /**
+     * Construct the binary heap.
+     */
+    public BinaryHeap( )
+    {
+        this( DEFAULT_CAPACITY );
     }
 
-    public BinaryHeap(int capacity) {
-        this.currentSize = 0;
-        this.array = new Comparable[capacity + 1];
+    /**
+     * Construct the binary heap.
+     * @param capacity the capacity of the binary heap.
+     */
+    public BinaryHeap( int capacity )
+    {
+        currentSize = 0;
+        array = (E[]) new Comparable[ capacity + 1 ];
     }
-
-    public BinaryHeap(E[] items) {
-        this.currentSize = items.length;
-        this.array = new Comparable[(this.currentSize + 2) * 11 / 10];
+    
+    /**
+     * Construct the binary heap given an array of items.
+      */
+      public BinaryHeap( E [ ] items )
+      {
+        currentSize = items.length;
+        array = (E[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+        
         int i = 1;
-        Comparable[] var3 = items;
-        int var4 = items.length;
+        for( E item : items )
+            array[ i++ ] = item;
+        buildHeap( );
+	}
 
-        for(int var5 = 0; var5 < var4; ++var5) {
-            E item = var3[var5];
-            this.array[i++] = item;
-        }
+    /**
+     * Insert into the priority queue, maintaining heap order.
+     * Duplicates are allowed.
+     * @param x the item to insert.
+     */
+    public void insert( E x )
+    {
+        if( currentSize == array.length - 1 )
+            enlargeArray( array.length * 2 + 1 );
 
-        this.buildHeap();
+            // Percolate up
+        int hole = ++currentSize;
+        for( ; hole > 1 && x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
+            array[ hole ] = array[ hole / 2 ];
+        array[ hole ] = x;
     }
 
-    public void insert(E x) {
-        if (this.currentSize == this.array.length - 1) {
-            this.enlargeArray(this.array.length * 2 + 1);
-        }
 
-        int hole;
-        for(hole = ++this.currentSize; hole > 1 && x.compareTo(this.array[hole / 2]) < 0; hole /= 2) {
-            this.array[hole] = this.array[hole / 2];
-        }
-
-        this.array[hole] = x;
+    private void enlargeArray( int newSize )
+    {
+	E [] old = array;
+		array = (E []) new Comparable[ newSize ];
+		      for( int i = 0; i < old.length; i++ )
+			       array[ i ] = old[ i ];	  
+    }
+			       
+    /**
+     * Find the smallest item in the priority queue.
+     * @return the smallest item, or throw an UnderflowException if empty.
+     */
+    public E findMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException( );
+        return array[ 1 ];
     }
 
-    private void enlargeArray(int newSize) {
-        E[] old = this.array;
-        this.array = new Comparable[newSize];
+    /**
+     * Remove the smallest item from the priority queue.
+     * @return the smallest item, or throw an UnderflowException if empty.
+     */
+    public E deleteMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException( );
 
-        for(int i = 0; i < old.length; ++i) {
-            this.array[i] = old[i];
-        }
+        E minItem = findMin( );
+        array[ 1 ] = array[ currentSize-- ];
+        percolateDown( 1 );
 
+        return minItem;
     }
 
-    public E findMin() {
-        if (this.isEmpty()) {
-            throw new UnderflowException();
-        } else {
-            return this.array[1];
-        }
+    /**
+     * Establish heap order property from an arbitrary
+     * arrangement of items. Runs in linear time.
+     */
+    private void buildHeap( )
+    {
+        for( int i = currentSize / 2; i > 0; i-- )
+            percolateDown( i );
     }
 
-    public E deleteMin() {
-        if (this.isEmpty()) {
-            throw new UnderflowException();
-        } else {
-            E minItem = this.findMin();
-            this.array[1] = this.array[this.currentSize--];
-            this.percolateDown(1);
-            return minItem;
-        }
+    /**
+     * Test if the priority queue is logically empty.
+     * @return true if empty, false otherwise.
+     */
+    public boolean isEmpty( )
+    {
+        return currentSize == 0;
     }
 
-    private void buildHeap() {
-        for(int i = this.currentSize / 2; i > 0; --i) {
-            this.percolateDown(i);
-        }
-
+    /**
+     * Make the priority queue logically empty.
+     */
+    public void makeEmpty( )
+    {
+        currentSize = 0;
+    }
+    
+    /**
+    *  Print all items currently in the heap.
+    */
+    public void printHeap( )
+    {
+    		for( int i = 1; i <= currentSize; i++ )
+    			System.out.print( array[ i ] + " " );
+    		
+    		System.out.println( );
     }
 
-    public boolean isEmpty() {
-        return this.currentSize == 0;
-    }
+    private static final int DEFAULT_CAPACITY = 100;
 
-    public void makeEmpty() {
-        this.currentSize = 0;
-    }
+    private int currentSize;      // Number of elements in heap
+    private E [ ] array; // The heap array
 
-    public void printHeap() {
-        for(int i = 1; i <= this.currentSize; ++i) {
-            Comparable var10001 = this.array[i];
-            System.out.print(var10001 + " ");
-        }
-
-        System.out.println();
-    }
-
-    private void percolateDown(int hole) {
+    /**
+     * Internal method to percolate down in the heap.
+     * @param hole the index at which the percolate begins.
+     */
+    private void percolateDown( int hole )
+    {
         int child;
-        Comparable tmp;
-        for(tmp = this.array[hole]; hole * 2 <= this.currentSize; hole = child) {
+        E tmp = array[ hole ];
+
+        for( ; hole * 2 <= currentSize; hole = child )
+        {
             child = hole * 2;
-            if (child != this.currentSize && this.array[child + 1].compareTo(this.array[child]) < 0) {
-                ++child;
-            }
-
-            if (this.array[child].compareTo(tmp) >= 0) {
+            if( child != currentSize &&
+                    array[ child + 1 ].compareTo( array[ child ] ) < 0 )
+                child++;
+            if( array[ child ].compareTo( tmp ) < 0 )
+                array[ hole ] = array[ child ];
+            else
                 break;
-            }
-
-            this.array[hole] = this.array[child];
         }
-
-        this.array[hole] = tmp;
+        array[ hole ] = tmp;
     }
 
-    public int getSize() {
-        return this.currentSize;
+    public int getSize(){
+        return currentSize;
     }
 }

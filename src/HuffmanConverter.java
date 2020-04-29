@@ -70,6 +70,9 @@ public class HuffmanConverter {
     }
 
     public void treeToCode(){
+        for (int i = 0; i < number_of_characters; i++){
+            code[i] = "";
+        }
         treeToCode(huffmanTree.root, "");
     }
 
@@ -78,7 +81,6 @@ public class HuffmanConverter {
             treeToCode(t.left, s + "0");
             treeToCode(t.right, s + "1");
         } else {
-            code[(int)t.letter.charAt(0)] = "";
             code[(int)t.letter.charAt(0)] = s;
         }
     }
@@ -86,7 +88,7 @@ public class HuffmanConverter {
     public String encodeMessage(){
         String coded = "";
         for (int i = 0; i < contents.length(); i++){
-            coded += code[(int)contents.charAt(0)];
+            coded = coded + code[(int)contents.charAt(i)];
         }
         return coded;
     }

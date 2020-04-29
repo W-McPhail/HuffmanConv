@@ -56,13 +56,14 @@ public class HuffmanConverter {
             }
         }
         legend = joiner.toString();
-        System.out.println(legend);
+        //System.out.println(legend);
     }
 
     public void frequenciesToTree() {
         bHeap = HuffmanTree.legendToHeap(legend);
+        bHeap.printHeap();
         huffmanTree = HuffmanTree.createFromHeap(bHeap);
-        huffmanTree.printLegend();
+       huffmanTree.printLegend();
     }
 }
 

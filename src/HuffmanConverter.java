@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 
@@ -63,7 +64,42 @@ public class HuffmanConverter {
         bHeap = HuffmanTree.legendToHeap(legend);
         bHeap.printHeap();
         huffmanTree = HuffmanTree.createFromHeap(bHeap);
-       huffmanTree.printLegend();
+        treeToCode();
+        System.out.println(Arrays.toString(code));
+    }
+
+//    public void printLegend() {
+//        printLegend(root, "");
+//    }
+//
+//    void printLegend(HuffmanNode huff, String s) {
+//        if (huff.letter.length() > 1) {
+//            printLegend(huff.left, s + "0");
+//            printLegend(huff.right, s + "1");
+//        } else {
+//            System.out.println((huff.letter + "=" + s));
+//        }
+
+    public void treeToCode(){
+        treeToCode(huffmanTree.root, "");
+    }
+
+    private void treeToCode(HuffmanNode t, String s){
+        if (t.letter.length() > 1) {
+            treeToCode(t.left, s + "0");
+            treeToCode(t.right, s + "1");
+        } else {
+            code[(int)t.letter.charAt(0)] = "";
+            code[(int)t.letter.charAt(0)] = s;
+        }
+    }
+
+    public String encodeMessage(){
+        return null;
+    }
+
+    public String decodeMessage(String encodedStr){
+        return null;
     }
 }
 

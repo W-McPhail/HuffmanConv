@@ -9,7 +9,6 @@ public class HuffmanConverter {
     public static final int number_of_characters = 256;
     private int[] count;
     private String[] code;
-    private int unique_chars;
     private String contents;
     private String legend = "";
     private HuffmanTree huffmanTree;
@@ -31,6 +30,7 @@ public class HuffmanConverter {
                 HuffmanConverter converter = new HuffmanConverter(input);
                 converter.recordFrequencies();
                 converter.frequenciesToTree();
+                System.out.println(converter.encodeMessage());
             } catch (IOException var404) {
                 var404.printStackTrace();
             }
@@ -64,21 +64,10 @@ public class HuffmanConverter {
         bHeap = HuffmanTree.legendToHeap(legend);
         bHeap.printHeap();
         huffmanTree = HuffmanTree.createFromHeap(bHeap);
+        huffmanTree.printLegend();
         treeToCode();
         System.out.println(Arrays.toString(code));
     }
-
-//    public void printLegend() {
-//        printLegend(root, "");
-//    }
-//
-//    void printLegend(HuffmanNode huff, String s) {
-//        if (huff.letter.length() > 1) {
-//            printLegend(huff.left, s + "0");
-//            printLegend(huff.right, s + "1");
-//        } else {
-//            System.out.println((huff.letter + "=" + s));
-//        }
 
     public void treeToCode(){
         treeToCode(huffmanTree.root, "");
@@ -95,7 +84,11 @@ public class HuffmanConverter {
     }
 
     public String encodeMessage(){
-        return null;
+        String coded = "";
+        for (int i = 0; i < contents.length(); i++){
+            coded += code[(int)contents.charAt(0)];
+        }
+        return coded;
     }
 
     public String decodeMessage(String encodedStr){

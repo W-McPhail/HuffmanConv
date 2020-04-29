@@ -1,7 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.StringJoiner;
 
 
 public class HuffmanConverter {
@@ -47,14 +47,15 @@ public class HuffmanConverter {
                 count[intChar] = count[intChar] + 1;
             }
         }
-
+        StringJoiner joiner = new StringJoiner(" ");
         for (int i = 0; i < count.length; i++) {
-            char chari = (char)i;
+            char chari = (char) i;
             int freq = count[i];
             if (freq != 0) {
-                legend = legend + " " + chari + " " + freq;
+                joiner.add(chari + " " + freq);
             }
         }
+        legend = joiner.toString();
         System.out.println(legend);
     }
 

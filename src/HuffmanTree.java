@@ -6,39 +6,48 @@ public class HuffmanTree {
         this.root = huff;
     }
 
-    public void printLegend(){
-        printLegend(root, "");
-    }
+    static BinaryHeap legendToHeap(String legend) {
 
-    void printLegend(HuffmanNode huff, String s){
-        if (huff.letter.length() > 1) {
-            printLegend( huff.left, s + "0" );
-            printLegend( huff.right, s + "1" );
-        } else {
-            System.out.println((huff.letter + "=" + s));
-        }
-    }
-
-    static BinaryHeap legendToHeap(String legend){
-        String[] split = legend.split(" ");
         BinaryHeap outputHeap = new BinaryHeap();
-        for(int i = 0; i < split.length; i+=2) {
-            String letter = split[i];
-            double freq = Double.parseDouble(split[i+1]);
-            HuffmanNode newNode = new HuffmanNode(letter, freq);
+        while (legend.length() > 1) {
+            char letter = legend.charAt( 0);
+            legend = legend.substring(2);
+            String s = legend.split(" ")[0];
+            legend = legend.substring(Math.min(s.length() + 1, legend.length()));
+            double freq = Double.parseDouble(s);
+            HuffmanNode newNode = new HuffmanNode(Character.toString(letter), freq);
             outputHeap.insert(newNode);
         }
+//        String[] split = legend.split(" ");
+//
+//        for (int i = 0; i < split.length; i += 2) {
+//            String letter = split[i];
+//
+//        }
         return outputHeap;
     }
 
-    static HuffmanTree createFromHeap(BinaryHeap b){
-        while(b.getSize() > 1) {
+    static HuffmanTree createFromHeap(BinaryHeap b) {
+        while (b.getSize() > 1) {
             HuffmanNode min1 = (HuffmanNode) b.deleteMin();
             HuffmanNode min2 = (HuffmanNode) b.deleteMin();
             HuffmanNode newNodeToAdd = new HuffmanNode(min1, min2);
             b.insert(newNodeToAdd);
         }
         return new HuffmanTree((HuffmanNode) b.findMin());
+    }
+
+    public void printLegend() {
+        printLegend(root, "");
+    }
+
+    void printLegend(HuffmanNode huff, String s) {
+        if (huff.letter.length() > 1) {
+            printLegend(huff.left, s + "0");
+            printLegend(huff.right, s + "1");
+        } else {
+            System.out.println((huff.letter + "=" + s));
+        }
     }
 }
 

@@ -24,6 +24,7 @@ public class HuffmanConverter {
         if (args.length != 1) {
             System.out.println("Please provide only 1 arg");
         } else {
+            //read contents
             try {
                 byte[] bytes = Files.readAllBytes((new File(args[0])).toPath());
                 String input = new String(bytes);
@@ -109,9 +110,6 @@ public class HuffmanConverter {
                 if(code[x].equals(tempStr)){
                     outputStr += (char)x;
                     tempStr = "";
-                }
-                else{
-                    outputStr = outputStr;
                 }
             }
         }

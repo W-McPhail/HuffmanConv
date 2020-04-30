@@ -30,7 +30,9 @@ public class HuffmanConverter {
                 HuffmanConverter converter = new HuffmanConverter(input);
                 converter.recordFrequencies();
                 converter.frequenciesToTree();
-                System.out.println(converter.encodeMessage());
+                String coded = converter.encodeMessage();
+                System.out.println(coded);
+                System.out.println(converter.decodeMessage(coded));
             } catch (IOException var404) {
                 var404.printStackTrace();
             }
@@ -85,16 +87,34 @@ public class HuffmanConverter {
         }
     }
 
-    public String encodeMessage(){
+    public String encodeMessage() {
         String coded = "";
-        for (int i = 0; i < contents.length(); i++){
-            coded = coded + code[(int)contents.charAt(i)];
+        for (int i = 0; i < contents.length(); i++) {
+            coded += code[(int) contents.charAt(i)];
         }
         return coded;
     }
 
     public String decodeMessage(String encodedStr){
-        return null;
+        String tempStr = "";
+        String outputStr = "";
+        for (int i = 0; i < number_of_characters; i++){
+            if(code[i] == null){
+                code[i] = "∫ç≈";
+            }
+        }
+        for (int k = 0; k < encodedStr.length(); k++){
+            tempStr += encodedStr.charAt(k);
+            for (int x = 0; x < number_of_characters; x++){
+                if(code[x].equals(tempStr)){
+                    outputStr += (char)x;
+                }
+                else{
+                    outputStr = outputStr;
+                }
+            }
+        }
+        return outputStr;
     }
 }
 

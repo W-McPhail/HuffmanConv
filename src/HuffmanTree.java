@@ -18,12 +18,6 @@ public class HuffmanTree {
             HuffmanNode newNode = new HuffmanNode(Character.toString(letter), freq);
             outputHeap.insert(newNode);
         }
-//        String[] split = legend.split(" ");
-//
-//        for (int i = 0; i < split.length; i += 2) {
-//            String letter = split[i];
-//
-//        }
         return outputHeap;
     }
 

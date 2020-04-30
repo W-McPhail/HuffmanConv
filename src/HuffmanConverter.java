@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.StringJoiner;
 
 
@@ -22,9 +21,9 @@ public class HuffmanConverter {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Please provide only 1 arg");
+            System.out.println("Please provide only 1 arg.");
         } else {
-            //read contents
+            //public static String readContents(String filename)
             try {
                 byte[] bytes = Files.readAllBytes((new File(args[0])).toPath());
                 String input = new String(bytes);
@@ -32,19 +31,20 @@ public class HuffmanConverter {
                 converter.recordFrequencies();
                 converter.frequenciesToTree();
                 String coded = converter.encodeMessage();
+                System.out.println("\nHuffman Encoding:");
                 System.out.println(coded);
+                System.out.println("\nHuffman Decoding:");
                 System.out.println(converter.decodeMessage(coded));
             } catch (IOException var404) {
                 var404.printStackTrace();
             }
-
         }
     }
 
     public void recordFrequencies() {
 
         for (int i = 0; i < contents.length(); i++) {
-            int intChar = (int) contents.charAt(i);
+            int intChar = (int)contents.charAt(i);
             if (count[intChar] == 0) {
                 count[intChar] = 1;
             } else {
@@ -53,23 +53,22 @@ public class HuffmanConverter {
         }
         StringJoiner joiner = new StringJoiner(" ");
         for (int i = 0; i < count.length; i++) {
-            char chari = (char) i;
+            char chari = (char)i;
             int freq = count[i];
             if (freq != 0) {
                 joiner.add(chari + " " + freq);
             }
         }
         legend = joiner.toString();
-        //System.out.println(legend);
     }
 
     public void frequenciesToTree() {
         bHeap = HuffmanTree.legendToHeap(legend);
         bHeap.printHeap();
+        System.out.println("\n");
         huffmanTree = HuffmanTree.createFromHeap(bHeap);
         huffmanTree.printLegend();
         treeToCode();
-        System.out.println(Arrays.toString(code));
     }
 
     public void treeToCode(){

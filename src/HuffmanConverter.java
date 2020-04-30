@@ -99,7 +99,7 @@ public class HuffmanConverter {
         String tempStr = "";
         String outputStr = "";
         for (int i = 0; i < number_of_characters; i++){
-            if(code[i] == null){
+            if(code[i] == ""){
                 code[i] = "∫ç≈";
             }
         }
@@ -108,6 +108,7 @@ public class HuffmanConverter {
             for (int x = 0; x < number_of_characters; x++){
                 if(code[x].equals(tempStr)){
                     outputStr += (char)x;
+                    tempStr = "";
                 }
                 else{
                     outputStr = outputStr;
